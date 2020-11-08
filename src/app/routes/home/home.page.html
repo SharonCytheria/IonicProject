@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>首页</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <img src="assets/img/androidbanner.png" alt="">
+</ion-header>
+
+<ion-content no-padding color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="Refresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="下拉刷新" 
+      refreshingSpinner="circles" refreshingText="刷新"></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let s of sales">
+        <h6 style="font-size:70%">{{s.title}}</h6>
+        <h4 style="font-size:100%"><span>{{s.current | number: '1.2-2'}}元</span></h4>
+        <p style="font-size:70%">
+          {{s.content}}
+          <span [ngClass]="{'less-equal': s.current - s.previous <=0 ,'greater': s.current - s.previous >0 }">
+            {{(s.current - s.previous).toFixed(2)}}
+          </span>&nbsp;
+          <ng-container [ngSwitch]="minus(s.current, s.previous)">
+            <ion-icon name="arrow-up" color="danger" *ngSwitchCase="1"></ion-icon>
+            <ion-icon name="arrow-forward" color="success" *ngSwitchCase="0"></ion-icon>
+            <ion-icon name="arrow-down" color="success" *ngSwitchCase="-1"></ion-icon>
+          </ng-container>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+     <ion-row class="fast-actions" *ngFor="let opt of options">
+       <ion-col style="text-align: center;" class="fast-action-item" *ngFor="let o of opt">
+         <div class="shortcut" style="font-size:15px;" routerLink={{o.href}} *ngIf="!o.disable">
+          <img src="assets/img/{{o.name}}.png" alt="" class="index_quickaction">
+          <div>{{o.text}}</div>
+         </div>
+       </ion-col>
+     </ion-row>
+  </ion-grid>
+  <cyj-copyright bottom="20px"></cyj-copyright>
+</ion-content>

@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button color="" href="/home">
+        <ion-icon name="arrow-back"></ion-icon>返回
+      </ion-button>
+    </ion-buttons>
+    <ion-title>新增商品
+      <ion-icon name="help-circle"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content non-padding>
+  <form #productForm="ngForm">
+    <ion-list>
+      <br/>
+      <ion-item>
+        <ion-thumbnail slot="start" (click)="onPresentActionSheet()">
+          <img src="assets/img/supplier_icon.png">
+        </ion-thumbnail>
+        <ion-thumbnail *ngFor="let image of product.images">
+          <img src={{image}}>
+        </ion-thumbnail>
+        <ion-text slot="end">上传图片</ion-text>
+      </ion-item>
+      <br/>
+      <ion-item>
+        <ion-label position="fixed">条码
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="barCode" placeholder="输入商品条码" [(ngModel)]="product.barcode" #barCode="ngModel"></ion-input>
+        <div slot="end" (click)="onScan()">
+          <ion-icon name="scan-outline" style="font-size: 30px;"></ion-icon>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed">名称
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="name" required type="text" [(ngModel)]="product.name" #name="ngModel" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$"
+        placeholder="名称不能带特殊字符"></ion-input>
+      </ion-item>
+      <ion-text text-left color="danger" *ngIf="name.invalid && name.touched">
+        <p [hidden]="!name.errors?.pattern" padding-start>名称格式为中英文、数字</p>
+      </ion-text>
+      
+      <ion-item detail>
+        <ion-label position="fixed">分类
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-note slot="end" routerLink="/category-list">{{product.categoryName}}</ion-note>
+      </ion-item>
+      <!--
+      <ion-item (click)="GoToCategoryList()">
+        <ion-label position="fixed">分类
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-text style="margin-left: 10px;">{{product.categoryName}}</ion-text>
+      </ion-item>-->
+      <br/>
+
+      <ion-item>
+        <ion-label position="fixed">售价
+          <ion-text color="danger">*</ion-text>
+        </ion-label>
+        <ion-input name="price" required placeholder="输入商品售价" type="number" [(ngModel)]="product.price"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="fixed">进价</ion-label>
+        <ion-input name="importPrice" required placeholder="输入商品进价" type="number" [(ngModel)]="product.importPrice"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="fixed">库存</ion-label>
+        <ion-input name="storage" required placeholder="输入商品库存" type="number" [(ngModel)]="product.storage"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="fixed">规格</ion-label>
+        <ion-input name="standard" required placeholder="输入商品规格" type="string" [(ngModel)]="product.standard"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="fixed">备注</ion-label>
+        <ion-input name="notes" required placeholder="输入商品备注" type="string" [(ngModel)]="product.notes"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="fixed">供货商</ion-label>
+        <ion-input name="supplier" required placeholder="商品供货商" type="string" [(ngModel)]="product.supplier"></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="light" class="ion-no-padding">
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-no-padding">
+        <ion-button expand="full" color="primary" (click)="onSave(true)" [disabled]="productForm.invalid">保存</ion-button>
+      </ion-col>
+      <ion-col class="ion-no-padding">
+        <ion-button expand="full" color="primary" (click)="onSave(true)" [disabled]="productForm.invalid">继续添加</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
