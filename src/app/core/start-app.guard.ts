@@ -31,6 +31,9 @@ export class StartAppGuard implements CanActivate {
       this.localStorageService.set(APP_KEY, appConfig);
       return true;
     } else {
+      try{
+        if(this.localStorageService.get("LoginLog", "")===null)
+          return false;
       const lastloginTime: any = this.localStorageService.get("LoginLog", "").loginMaxTime;
       const loginTime = new Date().getTime();
       if(loginTime > lastloginTime) {
@@ -42,7 +45,10 @@ export class StartAppGuard implements CanActivate {
       }
       if (appConfig.isLogin == true) this.router.navigateByUrl("home");
       else this.router.navigateByUrl("login")
-      return false;
+      return false;}
+      catch(e){
+        return false;
+      }
     }
   }
 }

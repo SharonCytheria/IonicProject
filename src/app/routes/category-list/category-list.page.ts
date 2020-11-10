@@ -1,8 +1,7 @@
-import { PassportServiceService } from './../../shared/services/passport-service.service';
 import { CategoryListServiceService } from './../../shared/services/category-list-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/shared/category';
-import { ActionSheetController, MenuController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, MenuController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 @Component({
@@ -25,7 +24,7 @@ export class CategoryListPage implements OnInit {
     private location: Location,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.activatedRoute.url.subscribe((params) =>{
       this.categoryService.getAll().then((data) => {
         this.categories = data.result;

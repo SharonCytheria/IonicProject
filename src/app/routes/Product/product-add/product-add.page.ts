@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs';
 import { Product } from 'src/app/shared/class/product';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { Camera } from '@ionic-native/camera/ngx'
-import { ImagePicker } from '@ionic-native/image-picker/ngx'
-import { StatusBar } from '@ionic-native/status-bar/ngx'
+import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker,ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-product-add',
@@ -32,30 +32,14 @@ export class ProductAddPage implements OnInit, OnDestroy{
   ) { 
     this.subscription = categoryService.watchCategory().subscribe(
       (activeCategory)=> {
-      this.product.categoryName = activeCategory.name
+      this.product.categoryName = activeCategory.name;
+      this.product.categoryId = activeCategory.id;
+      
     }, (error) => {
       console.log(error)
     });
     this.initiateProduct();
     this.product.categoryName="默认分类";
-    //---------camera
-    const options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,'+ imageData;
-    }, (err) => {
-      //Handle error
-    });
-    //---------imagePicker
-    this.imagePicker.getPictures(options).then((results) => {
-      for( var i = 0; i < results.length; i++) {
-        console.log('Image URI: '+ results[i]);
-      }
-    }, (err) => { })
     //---------statusBar
     this.statusBar.overlaysWebView(true);
   }
@@ -77,6 +61,7 @@ export class ProductAddPage implements OnInit, OnDestroy{
       barcode:"",
       images: [],
       price: null,
+      StorageNum: null,
     };
   }
   
@@ -87,13 +72,15 @@ export class ProductAddPage implements OnInit, OnDestroy{
         text: "拍照",
         role: "destructive",
         handler: ()=> {
-          console.log('camera');
+          console.log('camera'); 
+          this.onCamera();
         }
       },{
         text: "相册",
         handler: ()=>{
           console.log('Photos');
-        }
+          this.onImagePicker();
+         }
       },{
         text: "取消",
         role: "cancel",
@@ -137,7 +124,8 @@ export class ProductAddPage implements OnInit, OnDestroy{
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
       // others
-      alert(JSON.stringify(barcodeData));
+      //ßalert(JSON.stringify(barcodeData));
+      this.product.barcode=barcodeData.text;
     }).catch(err => {
       console.log('Error', err);
       alert(err);
@@ -146,6 +134,36 @@ export class ProductAddPage implements OnInit, OnDestroy{
   /*
   JSON.stringify() 方法用于将 JavaScript 值转换为 JSON 字符串。
   */
-
+  onCamera(){
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+      }
+      this.camera.getPicture(options).then((imageData) => {
+        let base64Image = 'data:image/jpeg;base64,'+ imageData;
+        console.log('I was used.');
+      }, (err) => {
+        //Handle error
+      }); 
+  }
+  onImagePicker(){
+    const options: ImagePickerOptions = {
+      maximumImagesCount: 4,
+      quality: 100
+    };
+    this.imagePicker.getPictures(options).then((results) => {
+      const images = [];
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < results.length; i++) {
+        console.log('Image URI: ' + results[i]);
+        images.push(results[i]);
+      }
+      this.product.images = images;
+    }, (err) => {
+      console.log(err);
+    });
+  }
 
 }

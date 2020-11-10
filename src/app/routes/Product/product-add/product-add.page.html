@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button color="" href="/home">
-        <ion-icon name="arrow-back"></ion-icon>返回
-      </ion-button>
+    <ion-buttons>
+      <ion-back-button text="返回" color=""></ion-back-button>
     </ion-buttons>
     <ion-title>新增商品
       <ion-icon name="help-circle"></ion-icon>
@@ -73,7 +71,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="fixed">库存</ion-label>
-        <ion-input name="storage" required placeholder="输入商品库存" type="number" [(ngModel)]="product.storage"></ion-input>
+        <ion-input name="StorageNum" required placeholder="输入商品库存" type="number" [(ngModel)]="product.StorageNum"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="fixed">规格</ion-label>

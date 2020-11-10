@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
       {'href': '/home', 'name': 'a_note', 'text': '支出管理', 'disable': false}
     ],
     [
-      {'href': '/productList', 'name': 'sales_management', 'text': '商品管理', 'disable': false},
+      {'href': '/product/list', 'name': 'sales_management', 'text': '商品管理', 'disable': false},
       {'href': '/home', 'name': 'user_management', 'text': '会员管理', 'disable': false},
       {'href': '/home', 'name': 'shop_management', 'text': '查询销售', 'disable': false},
       {'href': '/home', 'name': 'analysis', 'text': '智能分析', 'disable': false}

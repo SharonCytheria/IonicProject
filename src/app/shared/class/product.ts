@@ -7,4 +7,5 @@ export class Product {
     barcode: string;
     images: string[];
     price: number;
+    StorageNum: number;
 }
