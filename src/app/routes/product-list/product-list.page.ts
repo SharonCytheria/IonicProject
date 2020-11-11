@@ -25,6 +25,7 @@ export class ProductListPage implements OnInit {
   private subscription: Subscription;
   private isBackFromCategoryList: boolean;
   private isAddProduct: boolean;
+  private productCount: number; //总商品数量
   constructor(
     private loadingController: LoadingController,
     private activatedRoute: ActivatedRoute,
@@ -88,8 +89,9 @@ export class ProductListPage implements OnInit {
       this.totalStorageNum = 0;
       this.totalPrice = 0;
       const ajaxResult: AjaxResult = await this.productService.getList(this.currentIndex, 10);
-      console.log(ajaxResult.result);
-      this.products = ajaxResult.result;
+      //console.log(ajaxResult.result);
+      this.products = ajaxResult.result.products;
+      this.productCount = ajaxResult.result.totalCount;
       for (const product of this.products) {
         this.totalStorageNum += product.StorageNum;
         this.totalPrice += product.price * product.StorageNum;
@@ -101,6 +103,32 @@ export class ProductListPage implements OnInit {
     refresher.complete();
   }
 
+  async onInfinite(event) {
+    const infiniteScroll = event.target;
+    this.currentIndex++;
+    setTimeout(async () => {
+      const ajaxResult: AjaxResult = await this.productService.getList(this.currentIndex, 10);
+      if (this.productCount == this.products.length) {
+        const toast = await this.toastController.create({
+          message: '已是最后一页',
+          duration: 3000
+        });
+        toast.present();
+      } else {
+        this.totalStorageNum = 0;
+        this.totalPrice = 0;
+        this.products = this.products.concat(ajaxResult.result.products);
+        this.productCount = ajaxResult.result.totalCount;
+        for (const product of this.products) {
+          this.totalStorageNum += product.StorageNum;
+          this.totalPrice += product.price * product.StorageNum;
+        }
+      }
+      infiniteScroll.complete();
+    }, 500);
+    
+  }
+/*
   async onInfinite(event) {
     const infiniteScroll = event.target;
     this.currentIndex++;
@@ -121,7 +149,7 @@ export class ProductListPage implements OnInit {
       }
     }
     infiniteScroll.complete();
-  }
+  }*/
   async ionViewDidEnter() {
     if (!this.isBackFromCategoryList) {
       this.isBackFromCategoryList = false;
@@ -133,12 +161,13 @@ export class ProductListPage implements OnInit {
       this.totalStorageNum = 0;
       this.totalPrice = 0;
       const ajaxResult: AjaxResult = await this.productService.getList(this.currentIndex, 10);
-      this.products = ajaxResult.result;
+      this.products = ajaxResult.result.products;
+      this.productCount = ajaxResult.result.totalCount;
       for (const product of this.products) {
         this.totalStorageNum += product.StorageNum;
         this.totalPrice += product.price * product.StorageNum;
       }
-      console.log(this.products);
+      //console.log(this.products);
     }
   }
   addProduct() {
@@ -159,10 +188,11 @@ export class ProductListPage implements OnInit {
         this.totalPrice = 0;
         const ajaxResult: AjaxResult = await this.productService.getListByCondition(this.currentIndex, 10, condition);
         this.products = ajaxResult.result;
+      // this.productCount = ajaxResult.result.totalCount;
         for (const product of this.products) {
           this.totalStorageNum += product.StorageNum;
           this.totalPrice += product.price * product.StorageNum;
-          console.log(this.totalPrice);
+          //console.log(this.totalPrice);
         }
 
       }
@@ -173,7 +203,7 @@ export class ProductListPage implements OnInit {
   getCategoryByName() {
     this.productService.getListByCategoryName(1, 10, this.categoryName).then((data) => {
       const res = data.result;
-      console.log(res);
+      //console.log(res);
       if (res.length > 0) {
         this.products = res;
         this.totalStorageNum = 0;

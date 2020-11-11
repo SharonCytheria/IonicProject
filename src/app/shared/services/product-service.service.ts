@@ -1,3 +1,4 @@
+import { ProductPageResult } from './../interfaces/product-page-result';
 import { LocalStorageService } from './local-storage.service';
 import { Injectable } from '@angular/core';
 import { UUID } from "angular2-uuid";
@@ -41,10 +42,13 @@ export class ProductServiceService {
     }
     let temp = this.localStorageService.get('product',[]);
      //从本地存储中获取商品的数据，使用数组提供的slice(start,end)方法，从已有的数组中返回指定的元素。
-    temp = temp.slice((index - 1) * size, index * size);
+    const productPageResult: ProductPageResult = {
+      totalCount: temp.length,
+      products: temp.slice((index - 1) * size, index * size)
+    }
     return {
       targetUrl: '',
-      result: temp,
+      result: productPageResult,
       success: true,
       error: null,
       unAuthorizedRequest: false,
@@ -91,7 +95,8 @@ export class ProductServiceService {
     const products = this.localStorageService.get('product',[]);
     let temp = [];
     for(const product of products){
-      if(product.name == input || product.barcode == input || product.price == input){
+      if(product.name.toString().indexOf(input) !== -1 || product.barcode.toString().indexOf(input) !== -1 || product.price.toString().indexOf(input) !== -1){
+        //模糊查找，类似于寻找子串；即input是否为name的子串，若不是返回-1；
         temp.push(product);
       }
     }
