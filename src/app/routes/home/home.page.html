@@ -44,7 +44,7 @@
      <ion-row class="fast-actions" *ngFor="let opt of options">
        <ion-col style="text-align: center;" class="fast-action-item" *ngFor="let o of opt">
          <div class="shortcut" style="font-size:15px;" routerLink={{o.href}} *ngIf="!o.disable">
-          <img src="assets/img/{{o.name}}.png" alt="" class="index_quickaction">
+          <img style="width: 50px;" src="assets/img/{{o.name}}.png" alt="" class="index_quickaction">
           <div>{{o.text}}</div>
          </div>
        </ion-col>

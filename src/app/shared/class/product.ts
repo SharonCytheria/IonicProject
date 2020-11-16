@@ -7,5 +7,9 @@ export class Product {
     barcode: string;
     images: string[];
     price: number;
+    importPrice: number;
     StorageNum: number;
+    supplier: string;
+    standard: string;
+    remark: string;
 }

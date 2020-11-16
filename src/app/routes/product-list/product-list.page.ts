@@ -175,6 +175,9 @@ export class ProductListPage implements OnInit {
     this.router.navigateByUrl('/product/add');
   }
 
+  GoToProductDetailPage(){
+    this.router.navigateByUrl('/product/detail');
+  }
   async onInput(event) {
     this.currentIndex = 1;
     const condition = event.target.value;

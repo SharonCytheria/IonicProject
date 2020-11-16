@@ -79,6 +79,18 @@ const routes: Routes = [
   {
     path: 'product/list',
     loadChildren: () => import('./routes/product-list/product-list.module').then( m => m.ProductListPageModule)
+  },
+  {
+    path: 'product/detail/:barcode',
+    loadChildren: () => import('./routes/Product/product-detail/product-detail.module').then( m => m.ProductDetailPageModule)
+  },
+  {
+    path: 'popover',
+    loadChildren: () => import('./routes/Product/popover/popover.module').then( m => m.PopoverPageModule)
+  },
+  {
+    path: 'ModifyProductStorage/:barcode',
+    loadChildren: () => import('./routes/Product/modify-product-storage/modify-product-storage.module').then( m => m.ModifyProductStoragePageModule)
   }
   /*
   {

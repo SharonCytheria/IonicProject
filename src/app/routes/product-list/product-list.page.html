@@ -53,7 +53,7 @@
         </ion-buttons>
       </ion-item>
     </ion-row>
-    <ion-item *ngFor="let product of products" detail>
+    <ion-item *ngFor="let product of products" detail [routerLink]="['/product/detail',product.barcode]">
       <ion-col size="2">
         <img src="assets/img/c_goodspicture.png">
       </ion-col>

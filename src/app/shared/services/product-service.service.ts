@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { UUID } from "angular2-uuid";
 import { Product } from '../class/product';
 import { AjaxResult } from '../class/ajax-result';
+import { NullTemplateVisitor } from '@angular/compiler';
+import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +24,23 @@ export class ProductServiceService {
       success: true,
       error: null,
       unAuthorizedRequest: false,
+    };
+  }
+  intiProduct(): Product {
+    return {
+      id: '',
+      name: '',
+      categoryId: null,
+      categoryName: '',
+      category: null,
+      barcode: '',
+      images: [],
+      price: null,
+      importPrice: null,
+      StorageNum: null,
+      supplier: null,
+      standard: '',
+      remark: '',
     };
   }
   AutoIncrecement(array: Product[]): string{
@@ -120,5 +139,41 @@ export class ProductServiceService {
       error: null,
       unAuthorizedRequest: false,
     };
+  }
+  getProductByBarcode(barcode: string) : Product {
+    const products = this.localStorageService.get('product', []);
+    let temp = this.intiProduct();
+    for(const product of products){
+      if(product.barcode == barcode){
+        temp = product;
+        break;
+      }
+    }
+    return temp;
+  }
+  modifyProduct(product: Product): boolean {
+    const products = this.localStorageService.get('product', []);
+    for(let i = 0; i < products.length; i++){
+      if(products[i].barcode == product.barcode){
+        products[i] = product;
+        this.localStorageService.set('product', products);
+        return true;
+      }
+    }
+    return false;
+  }
+  deleteProductByBarcode(barcode: string): boolean {
+    const temp = this.localStorageService.get('product', []);
+    if( temp === null || temp.length === 0){
+      return false;
+    }
+    for(let i = 0; i < temp.length; i++){
+      if(temp[i].barcode == barcode){
+        temp.splice(i, 1);
+        this.localStorageService.set('product', temp);
+        return true;
+      }
+    }
+    return false;
   }
 }

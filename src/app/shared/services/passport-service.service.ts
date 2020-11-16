@@ -54,6 +54,7 @@ export class PassportServiceService {
     this.localStorageService.set('cu', signup.phone);
     return new AjaxResult(true, null);
   }
+  
   login(account: string, password: string): AjaxResult{
     const accounts =  this.localStorageService.get('LA', '');
     if(accounts == null){

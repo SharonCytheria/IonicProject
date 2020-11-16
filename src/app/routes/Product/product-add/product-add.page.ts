@@ -38,7 +38,8 @@ export class ProductAddPage implements OnInit, OnDestroy{
     }, (error) => {
       console.log(error)
     });
-    this.initiateProduct();
+    //this.initiateProduct();
+    this.productService.intiProduct();
     this.product.categoryName="默认分类";
     //---------statusBar
     this.statusBar.overlaysWebView(true);
@@ -51,6 +52,7 @@ export class ProductAddPage implements OnInit, OnDestroy{
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+  /*
   private initiateProduct(): void {
     this.product = {
       id: "",
@@ -63,7 +65,7 @@ export class ProductAddPage implements OnInit, OnDestroy{
       price: null,
       StorageNum: null,
     };
-  }
+  }*/
   
   async onPresentActionSheet(){
     const actionSheet = await this.actionSheetController.create({
@@ -101,7 +103,8 @@ export class ProductAddPage implements OnInit, OnDestroy{
         });
         alert.present();
         if(continues){
-          this.initiateProduct();
+          //this.initiateProduct();
+          this.productService.intiProduct();
           this.product.categoryName = "默认分类";
         } else {
 
