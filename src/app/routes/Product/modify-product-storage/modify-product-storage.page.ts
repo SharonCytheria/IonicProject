@@ -11,7 +11,7 @@ import { Product } from 'src/app/shared/class/product';
   styleUrls: ['./modify-product-storage.page.scss'],
 })
 export class ModifyProductStoragePage implements OnInit {
-  inOrOut: string;
+  IncreOrDecre: string="IncreaseStorage";
   product: Product;
   num: number;
   inFor = {
@@ -32,11 +32,8 @@ export class ModifyProductStoragePage implements OnInit {
   ionViewDidLeave(){
     this.num = null;
   }
-  /**
-   * 点击确定，进行数量验证，若不符返回友好信息
-   * @returns {Promise<void>}
-   */
-  async onClick() {
+
+  async onConfirm() {
     if (this.num <= 0) {
       const alert = await this.alertController.create({
         header: '提示',
@@ -46,7 +43,7 @@ export class ModifyProductStoragePage implements OnInit {
       await alert.present();
       return;
     }
-    if (this.inOrOut == 'putInInventory') {
+    if (this.IncreOrDecre == 'IncreaseStorage') {
       this.product.StorageNum += this.num;
     } else {
       if (this.product.StorageNum - this.num < 0) {
@@ -64,7 +61,7 @@ export class ModifyProductStoragePage implements OnInit {
     const res = this.productService.modifyProduct(this.product);
     if (res) {
       console.log('保存成功');
-      this.navController.navigateForward(['/productDetails', this.product.barcode]);
+      this.navController.navigateForward(['/product/detail', this.product.barcode]);
       const toast = await this.toastController.create({
         message: '保存成功',
         duration: 2000,
@@ -79,7 +76,7 @@ export class ModifyProductStoragePage implements OnInit {
       });
       await alert.present();
     }
-    this.modefyLogUpdate(this.inOrOut, this.num, res);
+    this.modefyLogUpdate(this.IncreOrDecre, this.num, res);
     console.log('添加至日志');
   }
 
