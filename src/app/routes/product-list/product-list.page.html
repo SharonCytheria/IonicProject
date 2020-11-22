@@ -3,7 +3,7 @@
     <ion-buttons>
       <ion-back-button text="返回" color=""></ion-back-button>
     </ion-buttons>
-    <ion-title>商品管理</ion-title>
+    <ion-title text-center>商品管理</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="searchByCategory()">分类
       </ion-button>
@@ -23,12 +23,14 @@
 
   <ion-grid *ngIf="total === 0" class="ion-text-center">
     <img src="assets/img/commodity_no.png" alt="">
-    <ion-item lines="none" >
-      <ion-text color="medium" >您还没有任何商品信息</ion-text>
-    </ion-item>
-    <ion-item lines="none">
-      <ion-text color="medium" >您可以</ion-text>
-    </ion-item>
+    <div position="center">
+      <ion-item lines="none" >
+        <ion-text color="medium" >您还没有任何商品信息</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-text color="medium" >您可以</ion-text>
+      </ion-item>
+    </div>
     <ion-button type="button" align:center color="primary" (click)="addProduct()">新增商品</ion-button>
   </ion-grid>
 

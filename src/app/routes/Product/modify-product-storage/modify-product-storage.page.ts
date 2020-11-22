@@ -18,6 +18,12 @@ export class ModifyProductStoragePage implements OnInit {
     'IncreaseStorage': '入库数量',
     'DecreaseStorage': '出库数量',
   };
+  // Logs: [{
+  //   time: string,
+  //   type: string,
+  //   num: number,
+  //   status: boolean,
+  // }];
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductServiceService,
@@ -80,26 +86,33 @@ export class ModifyProductStoragePage implements OnInit {
     console.log('添加至日志');
   }
 
-  /**
-   * 查看出入库记录
-   */
-  seeLog() {
-    this.navController.navigateForward('/log');
-  }
-  /**
-   * 修改日志
-   * @param {string} statu
-   * @param {number} num
-   */
-  async modefyLogUpdate(statu: string, num: number, res: boolean) {
-    statu = statu == 'IncreaseStorage' ? '入库数量' : '出库数量';
-    const log = this.localStorageService.get('modefyLog', []);
-    const time = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString(); // 北京时间
-    const message = time + ':' + statu + ':' + num + ':' + '修改成功:' + res;
-    log.unshift(message);
-    this.localStorageService.set('modefyLog', log);
+  async modefyLogUpdate(type: string, num: number, res: boolean) {
+    type = type == 'IncreaseStorage' ? '入库数量' : '出库数量';
+    // const log = this.localStorageService.get('StorageLog', []);
+    // const time = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString(); // 北京时间
+    // const message = time + ':' + type + ':' + num + ':' + '修改成功:' + res;
+    // log.unshift(message);
+    // this.localStorageService.set('StorageLog', log);
+    const Logs = this.localStorageService.get('StorageLog', []);
+    const log={
+      'time': new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString(),
+      'barcode': this.product.barcode,
+      'type': type,
+      'num': num,
+      'status': res,
+    };
+    // this.log.time = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString();
+    // this.log.type = type;
+    // this.log.num = num;
+    // this.log.status = res;
+    // console.log(this.log);
+    Logs.unshift(log);
+    this.localStorageService.set('StorageLog', Logs);
   }
   ngOnInit() {
+  }
+  onStorageLog(){
+    this.navController.navigateForward(['/storageLog', this.product.barcode]);
   }
 }
 

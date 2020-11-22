@@ -1,13 +1,18 @@
 <ion-header  class="ion-no-border" > 
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button color="primary" fill="outline" (click)="onSkip()"> 返回</ion-button>
+  <ion-toolbar color="primary">
+  <!-- <ion-buttons slot="start">
+      <ion-button color="primary" fill="outline" routerLink="/login"> 返回</ion-button>
+  </ion-buttons> -->
+  <!--默认跳转首页的ion-back-button不显示？-->
+  <ion-buttons slot="start"> 
+    <ion-back-button text="返回"></ion-back-button>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="padding-top">
   <div class="ion-text-center">
+    <br/>
     <img class="logo" src="assets/img/logo.png" alt="" >
   </div>
   <ion-grid margin-top>

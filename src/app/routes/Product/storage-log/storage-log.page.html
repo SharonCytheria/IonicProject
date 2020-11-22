@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>出/入库记录</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <form>
+    <ion-list>
+      <ion-item *ngFor="let log of Logs">
+        {{log}}
+      </ion-item>
+    </ion-list>
+  </form> -->
+  
+  <ion-card *ngFor="let log of Logs">
+    <ion-list *ngIf="log.barcode===product.barcode" inset="true">
+      <ion-item lines="none">
+        <ion-label>操作时间：</ion-label>
+        <ion-note slot="end" style="font-size: 12pt;">{{log.time | date: "yyyy-MM-dd HH:mm:ss"}}</ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>{{log.type}}:</ion-label>
+        <ion-note slot="end" style="font-size: 12pt;">{{log.num}}</ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>修改状态：</ion-label>
+        <ion-note slot="end" style="font-size: 12pt;">{{log.status}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  
+</ion-content>

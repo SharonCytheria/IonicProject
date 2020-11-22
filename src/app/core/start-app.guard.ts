@@ -21,32 +21,39 @@ export class StartAppGuard implements CanActivate {
 export class StartAppGuard implements CanActivate {
   constructor(private localStorageService: LocalStorageService, private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const appConfig: any = this.localStorageService.get(APP_KEY, {
+    let appConfig: any = this.localStorageService.get(APP_KEY, {
       isLogin: false,
       isLaunched: false,
       version: '1.0.0'
     });
-    if( appConfig.isLaunched === false ) {
+    if (appConfig.isLaunched === false) {
       appConfig.isLaunched = true;
       this.localStorageService.set(APP_KEY, appConfig);
       return true;
     } else {
-      try{
-        if(this.localStorageService.get("LoginLog", "")===null)
-          return false;
-      const lastloginTime: any = this.localStorageService.get("LoginLog", "").loginMaxTime;
-      const loginTime = new Date().getTime();
-      if(loginTime > lastloginTime) {
-        this.localStorageService.set(APP_KEY, {
-          isLaunched: true,
-          isLogin: false,
-          version: "1.0.0",
-        });
+      try {
+        if (this.localStorageService.get("LoginLog", "") === null) {
+          this.router.navigateByUrl("login");
+          return true;
+        }
+        const lastloginTime: any = this.localStorageService.get("LoginLog", "").loginMaxTime;
+        const loginTime = new Date().getTime();
+        if (loginTime > lastloginTime) {
+          appConfig = {
+            isLaunched: true,
+            isLogin: false,
+            version: "1.0.0",
+          };
+          this.localStorageService.set(APP_KEY, appConfig);
+        }
+        if (appConfig.isLogin == true) {
+          this.router.navigateByUrl("home");
+        } else {
+          this.router.navigateByUrl("login");
+        }
+        return false;
       }
-      if (appConfig.isLogin == true) this.router.navigateByUrl("home");
-      else this.router.navigateByUrl("login")
-      return false;}
-      catch(e){
+      catch (e) {
         return false;
       }
     }

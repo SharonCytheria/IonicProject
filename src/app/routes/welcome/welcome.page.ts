@@ -16,6 +16,7 @@ export class WelcomePage implements OnInit {
   constructor(private LocalStorageService:LocalStorageService, private router: Router) { }
 
   ngOnInit() {
+    /*
     let appConfig: any = this.LocalStorageService.get('App', {
       isLaunched: false,
       version: '1.0.0'
@@ -30,6 +31,7 @@ export class WelcomePage implements OnInit {
       //暂改为welcome
       //folder/id?
     }
+    */
   }
   onSlideWillChange(event) {
     console.log(event);

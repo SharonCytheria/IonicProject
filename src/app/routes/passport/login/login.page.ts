@@ -61,6 +61,7 @@ export class LoginPage implements OnInit {
         appConfig.isLogin = true;
         this.localStorageService.set(APP_KEY, appConfig);
         this.getShopLog();
+        console.log('success');
         this.router.navigateByUrl('/home');
       }
     }

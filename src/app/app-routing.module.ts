@@ -27,10 +27,21 @@ const routes: Routes = [
   {
     path: 'passport',
     loadChildren: () => import('./routes/passport/passport.module').then( m => m.PassportModule)
+  },{
+    path: 'signup',
+    loadChildren: () => import('./routes/passport/signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./routes/passport/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./routes/passport/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
     path: 'home',
-    loadChildren: () => import('./routes/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./routes/home/home.module').then( m => m.HomePageModule),
   },
   {
     path: 'setting',
@@ -91,6 +102,10 @@ const routes: Routes = [
   {
     path: 'ModifyProductStorage/:barcode',
     loadChildren: () => import('./routes/Product/modify-product-storage/modify-product-storage.module').then( m => m.ModifyProductStoragePageModule)
+  },
+  {
+    path: 'storageLog/:barcode',
+    loadChildren: () => import('./routes/Product/storage-log/storage-log.module').then( m => m.StorageLogPageModule)
   }
   /*
   {

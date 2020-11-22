@@ -62,7 +62,8 @@ export class ForgotPasswordPage implements OnInit {
     this.registerSlides.slideNext();
     this.registerSlides.lockSwipeToNext(true);
   }
-
+  onAccountCheck(){}
+/*
   async onAccountCheck(){
     const accounts = this.localStorage.get('LoginA','');
     if(this.account === ''){
@@ -78,7 +79,7 @@ export class ForgotPasswordPage implements OnInit {
         accounts.forEach(account => {
           if(((this.account == account.identifier) || this.account == account.email)){
             exist = true;
-            throw Error();
+            //throw Error();
           }
         })
       }catch(e){
@@ -101,6 +102,39 @@ export class ForgotPasswordPage implements OnInit {
       }
     }
   }
+  *//*
+  async onAccountCheck(){
+    const accounts = this.localStorage.get('LoginA', '');
+    if(this.account === ''){
+      const toast = await this.toastController.create({
+        message: '请输入您的邮箱或手机号',
+        duration: 3000,
+      });
+    } else {
+      let exist = false;
+      accounts.forEach(async account => {
+        if(this.account == account.identifier || this.account == account.email){
+          exist = true;
+          const alert = await this.alertController.create({
+            header: '提示',
+            message: '验证消息已发送，请及时查看',
+            buttons: ['知道了']
+          });
+          alert.present();
+          this.onNext();
+        }
+        if(exist == false){
+          const alert = await this.alertController.create({
+            header: '警告',
+            message: '该邮箱或手机号未注册',
+            buttons: ['知道了']
+          });
+          alert.present();
+        }
+        
+      });
+    }
+  }*/
   settime(){
     if(this.sms.countdown == 1){
       this.sms.countdown = 60;
