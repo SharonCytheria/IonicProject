@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-back-button text="返回" color=""></ion-back-button>
-    </ion-buttons>
-    <ion-title text-center>商品管理</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="searchByCategory()">分类
-      </ion-button>
-    </ion-buttons>
+      <ion-buttons slot="start"> 
+        <ion-back-button text="返回" color=""></ion-back-button>
+      </ion-buttons>
+      <ion-title style="text-align: center;">商品管理</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="searchByCategory()">分类
+        </ion-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -23,7 +23,7 @@
 
   <ion-grid *ngIf="total === 0" class="ion-text-center">
     <img src="assets/img/commodity_no.png" alt="">
-    <div position="center">
+    <div style="display: flex; flex-direction: column; align-items: center;">
       <ion-item lines="none" >
         <ion-text color="medium" >您还没有任何商品信息</ion-text>
       </ion-item>
@@ -57,7 +57,10 @@
     </ion-row>
     <ion-item *ngFor="let product of products" detail [routerLink]="['/product/detail',product.barcode]">
       <ion-col size="2">
-        <img src="assets/img/c_goodspicture.png">
+        <ion-thumbnail>
+          <img src="assets\img\c_goodspicture.png" *ngIf="product.images.length == 0" />
+          <img [src]="product.images[0]" *ngIf="product.images.length > 0" />
+        </ion-thumbnail>
       </ion-col>
       <ion-col size="9">
         <ion-row><ion-text>{{product.name}}</ion-text></ion-row>

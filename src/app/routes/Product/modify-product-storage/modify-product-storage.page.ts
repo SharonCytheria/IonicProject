@@ -95,10 +95,10 @@ export class ModifyProductStoragePage implements OnInit {
     // this.localStorageService.set('StorageLog', log);
     const Logs = this.localStorageService.get('StorageLog', []);
     const log={
-      'time': new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString(),
+      'time': new Date(new Date().getTime()).toISOString(),
       'barcode': this.product.barcode,
       'type': type,
-      'num': num,
+      'count': num,
       'status': res,
     };
     // this.log.time = new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toISOString();
@@ -107,6 +107,8 @@ export class ModifyProductStoragePage implements OnInit {
     // this.log.status = res;
     // console.log(this.log);
     Logs.unshift(log);
+    console.log('log');
+    console.log(log);
     this.localStorageService.set('StorageLog', Logs);
   }
   ngOnInit() {

@@ -10,36 +10,36 @@
 
 <ion-content padding color="light">
   <ion-list inset="true">
-    <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店铺名称',property:'shopName'}">
+    <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店铺名称',property:'shopName'}" lines='none'>
       <ion-label>店铺名称</ion-label>
-      <ion-note item-end>{{shop.shopName}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.shopName}}</ion-note>
     </ion-item>
-    <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店铺简称',property:'shortName'}">
+    <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店铺简称',property:'shortName'}" lines='full'>
       <ion-label>店铺简称</ion-label>
-      <ion-note item-end>{{shop.shortName}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.shortName}}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item lines='full'>
       <ion-label>注册时间</ion-label>
-      <ion-note item-end>{{createTime | date: "yyyy-MM-dd HH:mm:ss"}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{createTime | date: "yyyy-MM-dd HH:mm:ss"}}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item lines='full'>
       <ion-label>手机号码</ion-label>
-      <ion-note item-end>{{shop.phone}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.phone}}</ion-note>
     </ion-item>
   </ion-list>
 
   <ion-list inset="true">
     <ion-item>
       <ion-label>电子邮箱</ion-label>
-      <ion-note item-end>{{shop.email}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.email}}</ion-note>
     </ion-item>
     <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店主姓名',property:'shopKeeperName'}">
       <ion-label>店主姓名</ion-label>
-      <ion-note item-end>{{shop.shopKeeperName}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.shopKeeperName}}</ion-note>
     </ion-item>
     <ion-item routerLink="/ShopEdit" [queryParams]="{title:'店铺电话',property:'shopTel'}">
       <ion-label>店铺电话</ion-label>
-      <ion-note item-end>{{shop.shopTel}}</ion-note>
+      <ion-note style="font-size: 12pt;" slot="end">{{shop.shopTel}}</ion-note>
     </ion-item>
   </ion-list>
   <cyj-copyright [bottom]="'20px'"></cyj-copyright>

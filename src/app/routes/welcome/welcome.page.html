@@ -7,8 +7,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides #slides pager="true" (ionSlideWillChange)="onSlideWillChange($event)">
-    <ion-slide full="true">
+  <ion-slides #slides pager="true" (ionSlideWillChange)="onSlideWillChange($event)" style="height: 100%;">
+    <ion-slide>
       <img src="/assets/img/splsh_one.png" alt="">
     </ion-slide>
     <ion-slide>
@@ -19,7 +19,7 @@
         <ion-row>
           <img src="/assets/img/splsh_three.png" alt="">
         </ion-row>
-        <ion-row>
+        <ion-row class="fixed-bottom">
           <ion-col>
             <ion-button color="primary" fill="outline" expand="block" routerLink="/login">登录</ion-button>
           </ion-col>

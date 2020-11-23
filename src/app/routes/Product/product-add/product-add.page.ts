@@ -7,7 +7,7 @@ import { Product } from 'src/app/shared/class/product';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
-import { ImagePicker,ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { ImagePicker,ImagePickerOptions, OutputType } from '@ionic-native/image-picker/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
@@ -143,13 +143,14 @@ export class ProductAddPage implements OnInit, OnDestroy{
   */
   onCamera(){
     const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      quality: 10,
+      destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
       }
       this.camera.getPicture(options).then((imageData) => {
         let base64Image = 'data:image/jpeg;base64,'+ imageData;
+        this.product.images.push(base64Image);
         console.log('I was used.');
       }, (err) => {
         //Handle error
@@ -158,16 +159,15 @@ export class ProductAddPage implements OnInit, OnDestroy{
   onImagePicker(){
     const options: ImagePickerOptions = {
       maximumImagesCount: 4,
-      quality: 100
+      quality: 10,
+      outputType: OutputType.DATA_URL
     };
     this.imagePicker.getPictures(options).then((results) => {
       const images = [];
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < results.length; i++) {
-        console.log('Image URI: ' + results[i]);
-        images.push(results[i]);
+        this.product.images.push('data:image/jpeg;base64,' + results[i]);
       }
-      this.product.images = images;
     }, (err) => {
       console.log(err);
     });

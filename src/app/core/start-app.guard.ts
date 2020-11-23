@@ -33,7 +33,7 @@ export class StartAppGuard implements CanActivate {
     } else {
       try {
         if (this.localStorageService.get("LoginLog", "") === null) {
-          this.router.navigateByUrl("login");
+          this.router.navigateByUrl("/login");
           return true;
         }
         const lastloginTime: any = this.localStorageService.get("LoginLog", "").loginMaxTime;
@@ -47,9 +47,9 @@ export class StartAppGuard implements CanActivate {
           this.localStorageService.set(APP_KEY, appConfig);
         }
         if (appConfig.isLogin == true) {
-          this.router.navigateByUrl("home");
+          this.router.navigateByUrl("/home");
         } else {
-          this.router.navigateByUrl("login");
+          this.router.navigateByUrl("/login");
         }
         return false;
       }

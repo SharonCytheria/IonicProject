@@ -26,9 +26,10 @@ export class SettingPage implements OnInit {
   }
   onLogout(){
     this.localStorageService.remove("LoginLog");
-    this.localStorageService.remove("LA");
-    this.localStorageService.remove("shop");
+    // this.localStorageService.remove("LA");
+    // this.localStorageService.remove("shop");
     this.router.navigateByUrl("login");
+
   }
   async checkUpdate(){
     let alert = await this.alertController.create({

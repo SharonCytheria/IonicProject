@@ -14,7 +14,7 @@ export class StorageLogPage implements OnInit {
   Logs: [{
     time: string,
     type: string,
-    num: number,
+    count: number,
     status: boolean,
   }];
   constructor(
