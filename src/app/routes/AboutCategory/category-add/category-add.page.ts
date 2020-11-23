@@ -18,11 +18,11 @@ export class CategoryAddPage implements OnInit {
   mainid = 5;
   constructor(
     private activatedRouter: ActivatedRoute,
-    private categoryService: CategoryListServiceService,
+    private categoryService: CategoryListServiceService, //em
     private toastController: ToastController,
     private router: Router,
   ) { 
-    this.activatedRouter.queryParams.subscribe((queryParams) => {
+    this.activatedRouter.queryParams.subscribe((queryParams) => { //To get the parameters from url
       this.title = queryParams.title;
       if(this.title !== "大分类"){
         this.Title = "新增小分类";
@@ -48,10 +48,8 @@ export class CategoryAddPage implements OnInit {
         };
       }
     });
-    
   }
-
-  onAddSubCategory(){
+  onAddSubCategory(){ // add subCategory into the Category, and increase the id automatically 
     this.category.children.push({
       id: ++this.subid,
       name: "",
@@ -65,8 +63,9 @@ export class CategoryAddPage implements OnInit {
       this.category.name = this.Mname;
       if(this.categoryService.insert(this.category) === true){
         const toast = await this.toastController.create({
+          //toast only presents for a little while, and you don't need to click anything.
           message: "成功添加大分类",
-          duration: 3000,
+          duration: 3000, //as it says
         });
         this.router.navigateByUrl("/category-list");
         toast.present();
@@ -76,7 +75,7 @@ export class CategoryAddPage implements OnInit {
           duration: 3000,
         });
         toast.present(); 
-        } else{
+        } else {
         const toast = await this.toastController.create({
           message: "因名称重复，新增失败",
           duration: 3000,
@@ -89,9 +88,12 @@ export class CategoryAddPage implements OnInit {
         duration: 3000,
       });
       toast.present(); 
-      } else {
+      } else { //this.title !== "大分类" and this.category.name !== null
       this.category.name = this.title;
-      if(this.categoryService.insertSubCategory(this.category) === true){
+      if(this.categoryService.insertSubCategory(this.category) === true){  
+        // check categoryService/categoryListService for sure 
+        // A lot of things to check to make sure we can actually add it.
+        // If everything is ok 
         const toast = await this.toastController.create({
           message: "成功添加小分类",
           duration: 3000,

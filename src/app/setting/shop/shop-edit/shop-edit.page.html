@@ -1,8 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons (click)="onBack()">
-      <ion-icon slot="start" size="large" name="arrow-back"></ion-icon>返回
-      <ion-title align="center" style="font-size:17px; margin-right:66px;">{{title}}</ion-title>
+    <ion-buttons slot="start">
+      <!-- <ion-icon slot="start" size="large" name="arrow-back"></ion-icon>返回 -->
+      <ion-back-button text="返回"></ion-back-button>
+      <ion-title style="text-align: center;">{{title}}</ion-title>
     </ion-buttons>
     
   </ion-toolbar>

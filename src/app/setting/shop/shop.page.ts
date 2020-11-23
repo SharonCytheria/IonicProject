@@ -17,15 +17,12 @@ export class ShopPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.url.subscribe((params) =>{
-      this.shopDataInit();
+    this.activatedRoute.url.subscribe((params) =>{ // to get the parameters from url
+      this.onShopDataInit();
     });
   }
-  onBack(){
-    this.router.navigateByUrl('setting');
-  }
-  shopDataInit(){
-    const id = this.localStorageService.get("LoginLog", "").identifier;
+  onShopDataInit(){
+    const id = this.localStorageService.get("LoginLog", "").identifier; /// Attention
     this.shop = this.localStorageService.get("shop","");
     this.createTime = this.shop.createTime;
   }

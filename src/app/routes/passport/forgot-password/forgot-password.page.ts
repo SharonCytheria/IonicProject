@@ -19,20 +19,20 @@ export class ForgotPasswordPage implements OnInit {
   private shopNameOk = true;
   private emailOk = true;
   private passwordOk = true;
-  private pwd = '';
+  private password = '';
   private confirmPasswordOk = true;
   private confirmpwd = '';
-  private sms: any;
+  private message: any;
   private loginaccount: Loginaccount;
   constructor(
-    private Acs: AuthenticationCodeServiceService,
-    private localStorage: LocalStorageService,
+    private AuthenticationCodeService: AuthenticationCodeServiceService,
+    private localStorageService: LocalStorageService,
     private alertController: AlertController,
     private navController: NavController,
     private toastController: ToastController,
     private router: Router
   ) { 
-    this.sms = {
+    this.message = {
       content: '获取验证码',
       countdown: 60,
       disable: false,
@@ -136,29 +136,29 @@ export class ForgotPasswordPage implements OnInit {
     }
   }*/
   settime(){
-    if(this.sms.countdown == 1){
-      this.sms.countdown = 60;
-      this.sms.content = '获取验证码';
-      this.sms.disable = false;
+    if(this.message.countdown == 1){
+      this.message.countdown = 60;
+      this.message.content = '获取验证码';
+      this.message.disable = false;
       return;
     }else {
-      this.sms.countdown--;
+      this.message.countdown--;
     }
-    this.sms.content = '重新获取'+ this.sms.countdown + '秒';
+    this.message.content = '重新获取'+ this.message.countdown + '秒';
     setTimeout(()=>{
-      this.sms.content = '重新获取' + this.sms.countdown + '秒';
-      this.sms.settime();
+      this.message.content = '重新获取' + this.message.countdown + '秒';
+      this.message.settime();
     }, 1000);
   }
 
 async onSendSMS(){
-  this.sms.disable = true;
-  this.sms.trunum += 1;
-  if(this.sms.trynum > 3){
-    this.sms.maxtry = true;
-    this.sms.content = '已经达到获取上限';
+  this.message.disable = true;
+  this.message.trunum += 1;
+  if(this.message.trynum > 3){
+    this.message.maxtry = true;
+    this.message.content = '已经达到获取上限';
   }else{
-    let code = this.Acs.createCode(4);
+    let code = this.AuthenticationCodeService.createCode(4);
     const toast = await this.toastController.create({
       message: '验证码:' + code,
       duration: 3000
@@ -169,37 +169,37 @@ async onSendSMS(){
 }
 onValidateCode(form: NgForm){
   if(form.valid){
-    if(this.Acs.validate(this.sms.code)){ //pass the SMS verification 
+    if(this.AuthenticationCodeService.validate(this.message.code)){ //pass the SMS verification 
       this.onNext();
     }
   }
 }
 async onInputMes(event){
-  if(this.passwordOk && this.confirmPasswordOk){
-    let accounts: any = this.localStorage.get('LoginA', null);
-    for(var i = 0; i < accounts.length; i++)
+  if(this.passwordOk && this.confirmPasswordOk){ // password double check 
+    let accounts: any = this.localStorageService.get('LoginA', null); // to get an array of accounts from storage 
+    for(var i = 0; i < accounts.length; i++) // for every account in accounts
     {
-      if(this.account == accounts[i].phone || this.account == accounts[i].email){
-        accounts[i].PasswordToken = Md5.hashStr(this.pwd).toString();
+      if(this.account == accounts[i].phone || this.account == accounts[i].email){ // if account exists
+        accounts[i].PasswordToken = Md5.hashStr(this.password).toString();
         this.loginaccount = accounts[i];
         break;
       }
     }//change pwd
-    this.localStorage.set('LoginA', accounts); //update pwd
+    this.localStorageService.set('LoginA', accounts); //update pwd
     this.onNext();
   }
 }
 checkPassword(event){
-  let reg1 = /^(?![A-Z]+$)(?![a-z]+$)(?![\W_]+$)\S+$/;
-  if(this.pwd.length < 6 || this.pwd.length > 16 || !reg1.test(this.pwd)){
+  let Instruct = /^(?![A-Z]+$)(?![a-z]+$)(?![\W_]+$)\S+$/;
+  if(this.password.length < 6 || this.password.length > 16 || !Instruct.test(this.password)){
     this.passwordOk = false;
   }else {
     this.passwordOk = true;
   }
 }
 checkConfirmPassword(event){
-  let reg1 = /^(?![A-Z]+$)(?![a-z]+$)(?![\W_]+$)\S+$/;
-  if(this.confirmpwd.length < 6 || this.confirmpwd.length > 16 || !reg1.test(this.pwd) || this.confirmpwd !== this.pwd){
+  let Instruct = /^(?![A-Z]+$)(?![a-z]+$)(?![\W_]+$)\S+$/;
+  if(this.confirmpwd.length < 6 || this.confirmpwd.length > 16 || !Instruct.test(this.password) || this.confirmpwd !== this.password){
     this.confirmPasswordOk = false;
   } else {
     this.confirmPasswordOk = true;

@@ -13,7 +13,7 @@ import { PopoverPage } from '../popover/popover.page';
 })
 export class ProductDetailPage implements OnInit {
   product: Product;
-  CheckPrice: boolean;
+  CheckPrice: boolean; //解决跳转出错问题
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductServiceService,
@@ -31,14 +31,16 @@ export class ProductDetailPage implements OnInit {
   }
   
   ionViewDidEnter(){
-    const barcode = this.activatedRoute.snapshot.params['barcode'];
+    const barcode = this.activatedRoute.snapshot.params['barcode']; //get parameters from url, exactly for barcode
     this.product = this.productService.getProductByBarcode(barcode);
     this.CheckPrice = false;
   }
   ionViewDidLeave(){
     this.CheckPrice = false;
   }
-  async checkUser(){
+  async checkUser(){ 
+    // to check if the User has the right to know the importPrice
+    // In this part, I just use the method in PassportService
     const alert = await this.alertController.create({
       header: '请登录',
       inputs: [{
@@ -85,6 +87,7 @@ export class ProductDetailPage implements OnInit {
       buttons: [{
         text: '好友',
         icon: 'people-outline',
+        //icons, there are a lot of icons in the website of Ionic, choose whatever you like
         handler: () => {
           console.log('WeChat');
         }
@@ -118,6 +121,7 @@ export class ProductDetailPage implements OnInit {
   }
   //下拉框
   async onPresentPopover(event){
+    // kind of a component 
     const popover = await this.popoverController.create({
       component: PopoverPage,
       event: event,
@@ -129,6 +133,6 @@ export class ProductDetailPage implements OnInit {
   }
   ModifyProductStorage(){
     this.navController.navigateForward(['/ModifyProductStorage', this.product.barcode]);
-    console.log(this.product.barcode);
+    // console.log(this.product.barcode); for checking 
   }
 }

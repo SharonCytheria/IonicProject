@@ -25,6 +25,7 @@ export class SettingPage implements OnInit {
     this.version = this.settingService.APP.versoin;
   }
   onLogout(){
+    //Don't really delete the account
     this.localStorageService.remove("LoginLog");
     // this.localStorageService.remove("LA");
     // this.localStorageService.remove("shop");
@@ -41,8 +42,5 @@ export class SettingPage implements OnInit {
   }
   onCall(){
     window.location.href = "tel:18860117384"; // check!!!!
-  }
-  onBack(){
-    this.router.navigateByUrl("home");
   }
 }

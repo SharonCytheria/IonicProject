@@ -17,21 +17,21 @@
 </ion-header>
 
 <ion-content no-padding color="light">
-  <ion-refresher slot="fixed" (ionRefresh)="Refresh($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="下拉刷新" 
       refreshingSpinner="circles" refreshingText="刷新"></ion-refresher-content>
   </ion-refresher>
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let s of sales">
-        <h6 style="font-size:70%">{{s.title}}</h6>
-        <h4 style="font-size:100%"><span>{{s.current | number: '1.2-2'}}元</span></h4>
+      <ion-col *ngFor="let sale of sales">
+        <h6 style="font-size:70%">{{sale.title}}</h6>
+        <h4 style="font-size:100%"><span>{{sale.current | number: '1.2-2'}}元</span></h4>
         <p style="font-size:70%">
-          {{s.content}}
-          <span [ngClass]="{'less-equal': s.current - s.previous <=0 ,'greater': s.current - s.previous >0 }">
-            {{(s.current - s.previous).toFixed(2)}}
+          {{sale.content}}
+          <span [ngClass]="{'less-equal': sale.current - sales.previous <=0 ,'greater': sale.current - sale.previous >0 }">
+            {{(sale.current - sale.previous).toFixed(2)}}
           </span>&nbsp;
-          <ng-container [ngSwitch]="minus(s.current, s.previous)">
+          <ng-container [ngSwitch]="onMinus(sale.current, sale.previous)">
             <ion-icon name="arrow-up" color="danger" *ngSwitchCase="1"></ion-icon>
             <ion-icon name="arrow-forward" color="success" *ngSwitchCase="0"></ion-icon>
             <ion-icon name="arrow-down" color="success" *ngSwitchCase="-1"></ion-icon>
@@ -41,11 +41,11 @@
     </ion-row>
   </ion-grid>
   <ion-grid>
-     <ion-row class="fast-actions" *ngFor="let opt of options">
-       <ion-col style="text-align: center;" class="fast-action-item" *ngFor="let o of opt">
-         <div class="shortcut" style="font-size:15px;" routerLink={{o.href}} *ngIf="!o.disable">
-          <img style="width: 50px;" src="assets/img/{{o.name}}.png" alt="" class="index_quickaction">
-          <div>{{o.text}}</div>
+     <ion-row class="fast-actions" *ngFor="let option of options">
+       <ion-col style="text-align: center;" class="fast-action-item" *ngFor="let opt of option">
+         <div class="shortcut" style="font-size:15px;" routerLink={{opt.href}} *ngIf="!opt.disable">
+          <img style="width: 50px;" src="assets/img/{{opt.name}}.png" alt="" class="index_quickaction">
+          <div>{{opt.text}}</div>
          </div>
        </ion-col>
      </ion-row>

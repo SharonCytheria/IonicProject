@@ -30,11 +30,10 @@ export class ProductAddPage implements OnInit, OnDestroy{
     private imagePicker: ImagePicker,
     private statusBar: StatusBar,
   ) { 
-    this.subscription = categoryService.watchCategory().subscribe(
+    this.subscription = categoryService.watchCategory().subscribe( //use subscribe 
       (activeCategory)=> {
       this.product.categoryName = activeCategory.name;
       this.product.categoryId = activeCategory.id;
-      
     }, (error) => {
       console.log(error)
     });
@@ -44,15 +43,13 @@ export class ProductAddPage implements OnInit, OnDestroy{
     //---------statusBar
     this.statusBar.overlaysWebView(true);
   }
-
-  
-
   ngOnInit() {
   }
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
-  
+  // Delete this method, put it into ProductService. 
+  // Because it can be used a thousand times.
   // private initiateProduct(): void {
   //   this.product = {
   //     id: "",
@@ -73,10 +70,14 @@ export class ProductAddPage implements OnInit, OnDestroy{
   
   async onPresentActionSheet(){
     const actionSheet = await this.actionSheetController.create({
+      //The ActionSheet plugin shows a native list of options the user can choose from.
+      //A button's role property can either be destructive or cancel.
+      //Buttons without a role property will have the default look for the platform. 
+      //Buttons with the cancel role will always load as the bottom button, no matter where they are in the array. 
       header: "选择您的操作",
       buttons: [{
         text: "拍照",
-        role: "destructive",
+        role: "destructive", //The first one
         handler: ()=> {
           console.log('camera'); 
           this.onCamera();
@@ -127,6 +128,7 @@ export class ProductAddPage implements OnInit, OnDestroy{
     this.router.navigateByUrl("/category-list");
   }
   // 使用Barcode Scanner插件实现二维码、条形码扫描
+  // kind of an interface ?
   onScan(){
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
@@ -144,12 +146,17 @@ export class ProductAddPage implements OnInit, OnDestroy{
   onCamera(){
     const options: CameraOptions = {
       quality: 10,
+      // Note, Decrease the quality . 
+      // We don't need that much, 
+      // And it will take a lot of memory.
       destinationType: this.camera.DestinationType.DATA_URL,
+      //Change the original one to DATA_URL, cause the original one is not right.
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE
       }
       this.camera.getPicture(options).then((imageData) => {
         let base64Image = 'data:image/jpeg;base64,'+ imageData;
+        //Push the images we take into the images[] we define in class Product
         this.product.images.push(base64Image);
         console.log('I was used.');
       }, (err) => {
@@ -160,6 +167,7 @@ export class ProductAddPage implements OnInit, OnDestroy{
     const options: ImagePickerOptions = {
       maximumImagesCount: 4,
       quality: 10,
+      //The same,
       outputType: OutputType.DATA_URL
     };
     this.imagePicker.getPictures(options).then((results) => {

@@ -18,6 +18,7 @@ export class ModifyProductStoragePage implements OnInit {
     'IncreaseStorage': '入库数量',
     'DecreaseStorage': '出库数量',
   };
+  //Don't really need to finish the view of Storage Log.
   // Logs: [{
   //   time: string,
   //   type: string,
@@ -32,7 +33,8 @@ export class ModifyProductStoragePage implements OnInit {
     private navController: NavController,
     private localStorageService: LocalStorageService,
   ) {
-    const barcode = this.activatedRoute.snapshot.params['barcode'];
+    const barcode = this.activatedRoute.snapshot.params['barcode']; 
+    // used to get the parameters from URL.
     this.product = this.productService.getProductByBarcode(barcode);
    }
   ionViewDidLeave(){
@@ -107,8 +109,8 @@ export class ModifyProductStoragePage implements OnInit {
     // this.log.status = res;
     // console.log(this.log);
     Logs.unshift(log);
-    console.log('log');
-    console.log(log);
+    //console.log('log');
+    //console.log(log);
     this.localStorageService.set('StorageLog', Logs);
   }
   ngOnInit() {

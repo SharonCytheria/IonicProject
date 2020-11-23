@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
     ]
   ];
   constructor( private sale: SalesService) { 
-    this.sales = [
+    this.sales = [ 
       {title: '今日', content : '比昨日', previous: this.sale.getSales(), current: this.sale.getSales()},
       {title: '七日', content : '比同期', previous: this.sale.getSales(), current: this.sale.getSales()},
       {title: '本月', content : '比同期', previous: this.sale.getSales(), current: this.sale.getSales()}
@@ -39,17 +39,17 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
   }
-  minus(current: number, previous: number): number {
+  onMinus(current: number, previous: number): number { //used to choose the right arrow icon according to the revenue
     const result = current - previous;
-    if(result > 0){
+    if(result > 0){ // arrow-up  red
       return 1;
-    } else if(result === 0){
+    } else if(result === 0){ //even 
       return 0;
     } else {
-      return -1;
+      return -1; // arrow-down  green 
     }
   }
-  Refresh(event) {
+  onRefresh(event) { //refresh!
     setTimeout(() => {
       this.sales = [
         {

@@ -197,7 +197,6 @@ export class ProductListPage implements OnInit {
           this.totalPrice += product.price * product.StorageNum;
           //console.log(this.totalPrice);
         }
-
       }
     } catch (error) {
       console.log(error);
@@ -205,10 +204,10 @@ export class ProductListPage implements OnInit {
   }
   getCategoryByName() {
     this.productService.getListByCategoryName(1, 10, this.categoryName).then((data) => {
-      const res = data.result;
+      const temp = data.result;
       //console.log(res);
-      if (res.length > 0) {
-        this.products = res;
+      if (temp.length > 0) {
+        this.products = temp;
         this.totalStorageNum = 0;
         this.totalPrice = 0;
         for (const product of this.products) {

@@ -14,12 +14,6 @@ import { APP_KEY } from "../../welcome/welcome.page";
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  //submited = false;
-  //emailOk = true;
-  //passwordOk = true;
-  //confirmPasswordOk = true;
-  //codelock = false;
-  //shopNameOk = true;
   private submited: boolean;
   private signup: Signup;
   private shopNameOk = true;
@@ -27,18 +21,18 @@ export class SignupPage implements OnInit {
   private emailOk = true;
   private passwordOk = true;
   private confirmPasswordOk = true;
-  private sms: any;
+  private message: any;
   constructor( 
     private router: Router,
-    private Acs: AuthenticationCodeServiceService, //embarrassed...
-    private storage: LocalStorageService,
+    private authenticationCodeService: AuthenticationCodeServiceService, //embarrassed...
+    private localStorageService: LocalStorageService, //used to get or set storage
     private passportService: PassportServiceService,
-    private alertController: AlertController,
-    private nav: NavController,
+    private alertController: AlertController, 
+    private navController: NavController, 
     private menuController: MenuController
     ) {
       this.submited = false;
-      this.signup ={
+      this.signup ={  //initiate
         phone: '',
         email: '',
         shopName: '',
@@ -47,7 +41,7 @@ export class SignupPage implements OnInit {
         code: '',
       };
       this.slideIndex = 0;
-      this.sms = {
+      this.message = {
         content: '获取验证码',
         countdown: 60,
         disable: false,
@@ -78,19 +72,26 @@ export class SignupPage implements OnInit {
     });
   }
   canGoBack(){
-    this.nav.back();
+    this.navController.back();
   }
   checkEmail(event) {
-    let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if (this.signup.email.length < 4 || this.signup.email.length > 30 || !reg.test(this.signup.email)) {
+    let instruct = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      // 正则表达式 
+      // 邮箱地址 必须由大小写字母或数字或下划线开头，
+      // 其后可以
+      // 跟上任意的 \w字符 和 中划线 加号 英文句号
+      // 跟上任意的 \w字符 和 中划线 加号 英文句号
+      // 跟上任意的 \w字符 和 中划线 加号 英文句号
+    if (this.signup.email.length < 4 || this.signup.email.length > 30 || !instruct.test(this.signup.email)) {
         this.emailOk = false;
     } else {
         this.emailOk = true;
     }
   }
   checkPassword(event) {
-    let reg1 = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S+$/;
-    if (this.signup.password.length < 6 || this.signup.password.length > 16 || !reg1.test(this.signup.password)) {
+    let instruct = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S+$/;
+    //正则表达式 
+    if (this.signup.password.length < 6 || this.signup.password.length > 16 || !instruct.test(this.signup.password)) {
         this.passwordOk = false;
     } else {
         this.passwordOk = true;
@@ -98,8 +99,9 @@ export class SignupPage implements OnInit {
   }
 
   checkConfirmPassword(event) {
-    let reg1 = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S+$/;
-    if (this.signup.confirmPassword.length < 6 || this.signup.confirmPassword.length > 16 || !reg1.test(this.signup.password)
+    let instruct = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S+$/;
+    //正则表达式
+    if (this.signup.confirmPassword.length < 6 || this.signup.confirmPassword.length > 16 || !instruct.test(this.signup.password)
         || this.signup.confirmPassword !== this.signup.password) {
         this.confirmPasswordOk = false;
     } else {
@@ -122,44 +124,51 @@ export class SignupPage implements OnInit {
     }
   }
   settime(){
-    if(this.sms.countdown == 1){
-      this.sms.countdown = 60;
-      this.sms.content = '获取验证码';
-      this.sms.disable = false;
+    if(this.message.countdown == 1){
+      this.message.countdown = 60;
+      this.message.content = '获取验证码';
+      this.message.disable = false;
       return;
     }
     else{
-      this.sms.countdown--;
+      this.message.countdown--;
     }
-    this.sms.content = '重新获取' + this.sms.countdown +'秒';
+    this.message.content = '重新获取' + this.message.countdown +'秒';
     setTimeout(()=> {
-      this.sms.content = '重新获取' + this.sms.countdown + '秒';
+      this.message.content = '重新获取' + this.message.countdown + '秒';
       this.settime();
     }, 1000);
   }
   async onSendSMS(){
-    this.sms.disable = true;
-    this.sms.trynum += 1;
-    if(this.sms.trynum > 3){
-      this.sms.maxtry = true;
-      this.sms.content = '达到获取上限';
+    this.message.disable = true;
+    this.message.trynum += 1;
+    if(this.message.trynum > 3){
+      this.message.maxtry = true;
+      this.message.content = '达到获取上限';
     }
     else {
-      let code = this.Acs.createCode(4);
+      let code = this.authenticationCodeService.createCode(4);
       console.log(code);
+      // An Alert is a dialog that presents users with information or collects information from the user using inputs.
+      // An alert appears on top of the app's content, 
+      // and must be manually dismissed by the user before they can resume interaction with the app.
+      // It can also optionally have a header, subHeader and message.
       const alert =  await this.alertController.create({
         header: "验证码",
         message: code,
         buttons: ['确定'],
       });
+      // In the array of buttons, each button includes properties for its text, and optionally a handler. 
+      // If a handler returns false then the alert will not automatically be dismissed when the button is clicked. 
+      // All buttons will show up in the order they have been added to the buttons array from left to right. 
       alert.present();
       this.settime();
    }
   }
   async onValidateCode(form: NgForm){
     if(form.valid){
-      console.log(this.signup.code);
-      if(this.Acs.validate(this.signup.code)){
+      //console.log(this.signup.code);
+      if(this.authenticationCodeService.validate(this.signup.code)){
         this.onNext();
       } else {
         const alert = await this.alertController.create({
@@ -173,8 +182,8 @@ export class SignupPage implements OnInit {
   }
   async onInputMes(event){
     if(this.shopNameOk && this.emailOk && this.passwordOk && this.confirmPasswordOk){
-      let res = this.passportService.addUser(this.signup);
-      if(res.success == false){
+      let temp = this.passportService.addUser(this.signup);
+      if(temp.success == false){
         let alert = await this.alertController.create({
           header: "提示",
           message: "手机号或邮箱已使用",
@@ -182,13 +191,13 @@ export class SignupPage implements OnInit {
         });
         alert.present();
       }else {
-        const appConfig: any = this.storage.get(APP_KEY,{
+        const appConfig: any = this.localStorageService.get(APP_KEY,{
           isLaunched: false,
           isLogin: false,
           version: "1.0.0",
         });
         appConfig.isLogin = true;
-        this.storage.set(APP_KEY, appConfig);
+        this.localStorageService.set(APP_KEY, appConfig);
         this.onNext();
       }
     }

@@ -34,7 +34,7 @@ export class PopoverPage implements OnInit {
         text: '确定',
         handler: async ()=> {
           const temp = this.productService.deleteProductByBarcode(this.barcode);
-          if(temp === true){
+          if(temp === true){ // or just if(temp? )
             const toast = await this.toastController.create({
               message: '删除成功',
               duration: 2000,
@@ -62,6 +62,7 @@ export class PopoverPage implements OnInit {
   ngOnInit() {
   }
   alertProduct(){
+    // Didn't finish this function.
     console.log('修改商品');
     this.popoverController.dismiss();
   }

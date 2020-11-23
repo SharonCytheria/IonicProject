@@ -19,7 +19,7 @@ export class ShopEditPage implements OnInit {
     private toastController: ToastController,
     private router: Router
   ) {
-    activatedRoute.queryParams.subscribe((queryParams) =>{
+    activatedRoute.queryParams.subscribe((queryParams) =>{ // to get Parameters from url
       this.property = queryParams.property;
       this.title = queryParams.title;
     });
@@ -38,8 +38,5 @@ export class ShopEditPage implements OnInit {
     });
     toast.present();
     this.router.navigateByUrl("/Shop", { skipLocationChange: false});
-  }
-  onBack(){
-    this.router.navigateByUrl("/Shop");
   }
 }

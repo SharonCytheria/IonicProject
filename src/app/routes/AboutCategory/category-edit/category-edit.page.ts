@@ -21,8 +21,8 @@ export class CategoryEditPage implements OnInit {
     private navController: NavController,
     private router: Router,
   ) { 
-    this.id = this.activatedRoute.snapshot.params["id"];
-    this.category = this.categoryService.getCategoryById(this.id);
+    this.id = this.activatedRoute.snapshot.params["id"]; // get papameters from url again 
+    this.category = this.categoryService.getCategoryById(this.id); // use this id to find category
   }
   private async presentModal(name: string){ //given
     const modal = await this.modalController.create({
@@ -57,8 +57,10 @@ export class CategoryEditPage implements OnInit {
         cssClass: "secondary",
         handler: (blah) => {
           item.close();
+          // If a handler returns false then the alert will not automatically be dismissed when the button is clicked. 
         },
       },{
+        //check categoryListService
         text: "确认",
         handler: ()=>{
           if(subId != null){
