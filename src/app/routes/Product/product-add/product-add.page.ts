@@ -107,12 +107,12 @@ export class ProductAddPage implements OnInit, OnDestroy{
           buttons: ["确定"],
         });
         alert.present();
+        this.router.navigateByUrl("/product/list");
         if(continues){
           //this.initiateProduct();
           this.productService.intiProduct();
           this.product.categoryName = "默认分类";
         } else {
-
         } 
       } else {
         const alert = await this.alertController.create({

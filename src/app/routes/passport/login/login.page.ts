@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
         let appConfig: any = this.localStorageService.get(APP_KEY,{
           inLaunched: false,
           isLogin: false,
-          version: '1.0.0'
+          version: '0.1.9'
         });
         appConfig.isLogin = true;
         this.localStorageService.set(APP_KEY, appConfig);

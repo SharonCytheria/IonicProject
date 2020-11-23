@@ -35,7 +35,7 @@ export class SettingPage implements OnInit {
   async checkUpdate(){
     let alert = await this.alertController.create({
       header: "提示",
-      message: "当前为最新版本",
+      message: "当前为最新版本 0.1.9",
       buttons: ["确定"],
     });
     alert.present();

@@ -194,7 +194,7 @@ export class SignupPage implements OnInit {
         const appConfig: any = this.localStorageService.get(APP_KEY,{
           isLaunched: false,
           isLogin: false,
-          version: "1.0.0",
+          version: "0.1.9",
         });
         appConfig.isLogin = true;
         this.localStorageService.set(APP_KEY, appConfig);

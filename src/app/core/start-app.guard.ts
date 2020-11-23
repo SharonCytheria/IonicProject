@@ -24,7 +24,7 @@ export class StartAppGuard implements CanActivate {
     let appConfig: any = this.localStorageService.get(APP_KEY, {
       isLogin: false,
       isLaunched: false,
-      version: '1.0.0'
+      version: '0.1.9'
     });
     if (appConfig.isLaunched === false) {
       appConfig.isLaunched = true;
@@ -42,7 +42,7 @@ export class StartAppGuard implements CanActivate {
           appConfig = {
             isLaunched: true,
             isLogin: false,
-            version: "1.0.0",
+            version: "0.1.9",
           };
           this.localStorageService.set(APP_KEY, appConfig);
         }
